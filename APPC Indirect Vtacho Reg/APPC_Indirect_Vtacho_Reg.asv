@@ -6,8 +6,10 @@ interval=0.1;
 t_space = 0:interval:100;
 
 %% constant reference definition
-yc = 3;
-yc = yc *ones(1,length(t_space));
+am = 5; %the bigger the value of am, the longer the settling time of yp
+% c = 3;
+% yc = c *ones(1,length(t_space));
+yc=sin(t_space);
 %% Plant Definition for simulation purposes
 km=250;
 kT=0.004;
@@ -17,19 +19,29 @@ b = km*kT/Tm;
 Gp = tf(b,[1 a]);
 Gp_ss = ss(Gp);
 
+k1star = (a+am)/b;
+k2star = (a*c)/b;
+
 gamma1=0.3;
 gamma2=0.3;
+
 y=zeros;
 e=zeros;
 u=zeros;
-k1 = zeros(length(t_space),1)
-k2 = zeros(length(t_space),1)
-sgnb = sign(b)
+k1 = zeros(length(t_space),1);
+k2 = zeros(length(t_space),1);
+ahat = zeros(length(t_space),1);
+bhat = zeros(length(t_space),1);
+b0 = 0.2;
+bhat(1) = 0.3;
+sgnb = sign(b);
 
 %% APPC process
 for i=1:(length(yc)-1)
     
     t = t_space(i):interval:t_space(i+1);
+    k1(i) = (ahat(i)+am)/bhat(i);
+    k2(i) = (ahat(i)*c)/bhat(i);
     u(i) = -k1(i)*e(i) - k2(i);
     
     input=u(i) * ones(1,length(t));
@@ -38,7 +50,7 @@ for i=1:(length(yc)-1)
     
     e(i+1)=y(i+1)-yc(i+1);
     
-    [k1(i+1),k2(i+1)]= calculate_k(gamma1,gamma2,e(i+1),y(i+1),t,k1(i),k2(i),sgnb);
+    [ahat(i+1), bhat(i+1)] = calculate_a_b(gamma1,gamma2,e(i+1),y(i+1),u(i),t,ahat(i),bhat(i),b0,sgnb);
     
 end
 
@@ -52,3 +64,4 @@ title('Desired constant output and y plant output')
 figure()
 plot(t_space,e);
 
+stepinfo(y,t_space)
