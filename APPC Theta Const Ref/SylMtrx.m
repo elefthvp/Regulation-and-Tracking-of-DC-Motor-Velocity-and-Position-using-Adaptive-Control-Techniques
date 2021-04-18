@@ -1,4 +1,4 @@
-function mtrx = SylMax(p1,p2)
+function mtrx = SylMtrx(p1,p2)
 %% Homemade function that calculates Sylvester Matrix
 % Input arguments in polynomial form
 %%
