@@ -15,12 +15,12 @@ d = cell2mat(num);
 n2=length(d)
 p2poly = poly2sym(d,s);
 p2c = coeffs(p2poly);
-p2c=cell2mat(num)
+p2c=cell2mat(num);
 
 if(n1>n2)
-    p2c= [zeros(1,n1-n2) p2c]
+    p2c= [zeros(1,n1-n2) p2c];
 elseif (n1<n2)
-    p1c= [zeros(1,n1-n2) p1c]
+    p1c= [zeros(1,n1-n2) p1c];
 end
 
 
