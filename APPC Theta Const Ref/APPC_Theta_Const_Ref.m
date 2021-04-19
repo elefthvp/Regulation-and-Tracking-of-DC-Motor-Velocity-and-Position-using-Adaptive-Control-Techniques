@@ -1,15 +1,22 @@
+clear all
+close all
+
+syms s
 n=2;
-interval = 0.01;
-t_space=[0:interval:30];
+q=1
+interval = 0.1;
+t_space=[0:interval:200];
+kp_max = -0.1;
 
 %% Time, Reference Input and Reference Model simulation
 
 n=2;
-interval = 0.01;
-t_space=[0:interval:30];
 c=4
 ym=c*ones(1,length(t_space));
-
+Qm = s;
+Qmtf = tf([sym2poly(Qm)],1)
+As = s^4+s^3+5*s^2+4*s+3
+Astf = tf([sym2poly(As)],1)
 %% Plant Model definition for simulation purposes 
 kM=250;
 k0=0.2;
@@ -20,36 +27,21 @@ numerator = a;
 denominator = [Tm,1,0];
 Gpknown= tf(numerator,denominator);
 
-% syms s ahat bhat
-% Qm = s;
-% Zp = bhat;
-% Rp = s^2+ahat*s
-
-bla = SylMtrx(Qm*Rp,Zp)
 
 up=zeros;
 y=zeros(length(t_space),2);
-yp=zeros;
+yp=zeros(length(t_space),1);
 
-%% Control Law variables initialization
-theta=zeros(length(t_space),4);
-w=zeros(4,length(t_space));
-theta1=zeros;
-theta2=zeros;
-theta3=zeros;
-c0=zeros;
-c0(1) = k_m/kphat(1);
-theta=[0 0 0 c0(1)];
-w = [0 0 0 r(1)]';
-
+lamda1 = 3;
+lamda0 = 4;
 %% Adaptive Law variables initialization
 Lamda_inv_tf = tf(1, [1 lamda1 lamda0]);
 Lamda_inv_ss = ss(Lamda_inv_tf); %%CHECK AGAIN
-w1_ic = zeros(length(t_space),2);
-w2_ic = zeros(length(t_space),2);
-w1 = zeros(length(t_space),1);
-w2 = zeros(length(t_space),1);
 
+%z = s^2/Lamda
+zss = generate_zss(lamda0,lamda1);
+z1z2 = zeros(length(t_space),2);
+z=zeros(length(t_space),1);
 %phi2
 phi2_ss = generate_phi2ss(lamda0,lamda1);
 phi_1_ic = zeros(length(t_space),2);
@@ -57,57 +49,70 @@ phi_2_ic = zeros(length(t_space),2);
 phi_1 = zeros(length(t_space));
 phi_2 = zeros(length(t_space));
 
+
+%% theta_p = zeros(length(t_space),2);
+kphat = zeros;
+kphat(1) = -0.11;
+a1_hat = zeros;
+phi = zeros(2,length(t_space));
+ms_squared = zeros;
+epsilon = zeros;
+theta_p(1,:) = [kphat(1) 0];
+
+gamma = 0.3;
+Gamma = gamma*eye(length(theta_p(1,:)));
+x = zeros(length(t_space),4)
+uic = zeros(length(t_space),2)
 %% APPC Process
-for i=1:(length(t_space)-1)
-    t = t_space(i):0.1:t_space(i+1);
+for i=2:(length(t_space)-1)
+
+    t = t_space(i-1):0.1:t_space(i);
     u_1=ones(1,length(t));
 
-    up(i)= %DEFINE FORMULA FOR APPC CONTROL
-
-    temp1 = update_yp(up(i),t,y(i,:),Tm,a);
-    temp2 = temp1.y';
-    y(i+1,:) = temp2(end,:);
-    yp(i+1)= y(i+1,1);
-
-    %adaptive law
+    %% adaptive law
     %z
-    [z(i+1),z1z2(i+1,:)] = integrate_secondorder(zss, yp(i+1)*u_1, t,z1z2(i,:));
+    [z(i),z1z2(i,:)] = integrate_secondorder(zss, yp(i)*u_1, t,z1z2(i-1,:));
     
     %phi
-    [phi_1(i+1) , phi_1_ic(i+1,:)] = integrate_secondorder(Lamda_inv_ss, up(i)*u_1, t,phi_1_ic(i,:));
-    [phi_2(i+1) , phi_2_ic(i+1,:)] = integrate_secondorder(phi2_ss , yp(i+1)*u_1, t,phi_2_ic(i,:));
-    phi(:,i+1) = [ phi_1(i+1) ; phi_2(i+1)];
+    [phi_1(i) , phi_1_ic(i,:)] = integrate_secondorder(Lamda_inv_ss, up(i-1)*u_1, t,phi_1_ic(i-1,:));
+    [phi_2(i) , phi_2_ic(i,:)] = integrate_secondorder(phi2_ss , yp(i)*u_1, t,phi_2_ic(i-1,:));
+    phi(:,i) = [ phi_1(i) ; phi_2(i)];
     
-    ms_squared(i+1) = 1+ phi(:,i+1)' * phi(:,i+1);
+    ms_squared(i) = 1+ phi(:,i)' * phi(:,i);
     
-    epsilon(i+1) = (z(i+1) - theta_p(i,:) * phi (:,i+1))/ms_squared(i+1);
+    epsilon(i) = (z(i) - theta_p(i-1,:) * phi (:,i))/ms_squared(i);
 
-    theta_p(i+1,:) = update_theta_p(t,Gamma,epsilon(i+1),phi(:,i+1),kp_max,theta_p(i,:));
-    kphat(i+1) = theta_p(i+1,1);
-    a1_hat(i+1) = theta_p(i+1,2); %NO PROJECTION NEEDED HERE
+    theta_p(i,:) = update_theta_p(t,Gamma,epsilon(i),phi(:,i),kp_max,theta_p(i-1,:));
+    kphat(i) = theta_p(i,1);
+    a1_hat(i) = theta_p(i,2); %NO PROJECTION NEEDED HERE
 
  
-    %control law
+    %% control law
     %calculate stuff like sylvester matrix, L, P etc here!
     %make this a function
-    Rp = tf([1 ahat(i+1) 0],1)
-    Zp = tf(bhat(i+1),1)
-    temp = Qm*Rp
-    syl = SylMtrx(Qm*Rp,Zp)
+    Rp = s^2+a1_hat(i)*s
+    Zp = kphat(i)
+    Rptf = tf([1 a1_hat(i) 0],1)
+    Zptf = tf(kphat(i),1)
+    
+    [Ps,Ls] = calculateP_L(n,q,As,Qmtf,Rptf,Zptf);
+    Cs = Ps/(Qmtf*Ls); %find ss model manually?
 
-%     bl = inv(syl)* [0, (5 4 3 2)']'
-    al = [zeros(1,q),1,a] %isxyei?
-    bl = inv(syl)*al'
-    bl=bl'
-    lq = bl(1:n+q)
-    l = lq(3:end)'
-
-    p = bl(n+q+1:end)
-    Ls = [s^n-1 
-
-
-
+    %% u and y update
+    up_plant =  - Cs*(yp(i)-ym(i)) %no index because this is a tf
+    up_plant = ss(up_plant)
+    [temp,time,u0] = lsim(up_plant,u_1,t,uic(i,:))
+    uic(i+1,:)=u0(end,:)
+    up(i+1) = temp(end);
     
 
-
+    yp_plant = (Zptf*Ps/Astf)*ym(i)
+    yp_plant = ss(yp_plant)
+    [temp,time,x0] = lsim(yp_plant,u_1,t,x(i,:))
+    x(i+1,:)=x0(end,:)
+    yp(i+1) = temp(end);
+    
 end
+
+plot(t_space,yp)
+save workspace.mat
