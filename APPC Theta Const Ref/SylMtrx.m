@@ -5,14 +5,14 @@ syms s
 %%
 [num,den] = tfdata(p1);
 d = cell2mat(num);
-n1 = length(d)
+n1 = length(d);
 % p1poly = poly2sym(d,s);
 % p1c = coeffs(p1poly);
-p1c= d
+p1c= d;
 
 [num,den]=  tfdata(p2);
 d = cell2mat(num);
-n2=length(d)
+n2=length(d);
 p2poly = poly2sym(d,s);
 p2c = coeffs(p2poly);
 p2c=cell2mat(num);
@@ -20,7 +20,7 @@ p2c=cell2mat(num);
 if(n1>n2)
     p2c= [zeros(1,n1-n2) p2c];
 elseif (n1<n2)
-    p1c= [zeros(1,n1-n2) p1c];
+    p1c= [zeros(1,n2-n1) p1c];
 end
 
 
