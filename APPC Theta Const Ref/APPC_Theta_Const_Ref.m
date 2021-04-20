@@ -1,21 +1,33 @@
 clear all
 close all
-
+%%
 syms s
 n=2;
-q=1
+% q=1;
 interval = 0.1;
-t_space=[0:interval:200];
+t_space=[0:interval:30];
 kp_max = -0.1;
 
 %% Time, Reference Input and Reference Model simulation
-
-n=2;
-c=4
-ym=c*ones(1,length(t_space));
-Qm = s;
+n=1;
+% c=4
+% 
+% ym = 2 + sin(t_space);
+% ym = 
+% Qm = s;
+syms c t;
+ym = sin(t);
+[Qm,q] = calculate_Qm(ym);
+% Qm = s*(s^2+0.2^2)
 Qmtf = tf([sym2poly(Qm)],1)
-As = s^4+s^3+5*s^2+4*s+3
+% q=3;
+c=2;
+t=t_space;
+ym = double(subs(ym));
+ym=c*ones(1,length(t_space));
+
+As =s^4+s^3+5*s^2+4*s+3;
+ 
 Astf = tf([sym2poly(As)],1)
 %% Plant Model definition for simulation purposes 
 kM=250;
@@ -26,6 +38,7 @@ a=-k0*kmu*kM;
 numerator = a;
 denominator = [Tm,1,0];
 Gpknown= tf(numerator,denominator);
+Gpknownss=ss(Gpknown);
 
 
 up=zeros;
@@ -61,11 +74,11 @@ theta_p(1,:) = [kphat(1) 0];
 
 gamma = 0.3;
 Gamma = gamma*eye(length(theta_p(1,:)));
-x = zeros(length(t_space),4)
-uic = zeros(length(t_space),2)
+x = zeros(length(t_space),2*n+q-1);
+uic = zeros(length(t_space),n+q-1);
 %% APPC Process
-for i=2:(length(t_space)-1)
-
+for i=2:length(t_space)
+%i = 2
     t = t_space(i-1):0.1:t_space(i);
     u_1=ones(1,length(t));
 
@@ -100,11 +113,17 @@ for i=2:(length(t_space)-1)
 
     %% u and y update
     up_plant =  - Cs*(yp(i)-ym(i)) %no index because this is a tf
+%     up_plant = ((Lamda - Ls*Qmtf)/Lamda)*up(i-1)-(Ps/Lamda)*(yp(i-1)-ym(i-1))
     up_plant = ss(up_plant)
     [temp,time,u0] = lsim(up_plant,u_1,t,uic(i,:))
     uic(i+1,:)=u0(end,:)
     up(i+1) = temp(end);
     
+    %Calculating up (i+1) and simulating with the usual way does not bear
+    %the right results in this one.
+%     [temp,time,y0]= lsim(Gpknownss,up(i+1)*(u_1),t,y(i,:))
+%     y(i+1,:)=y0(end,:)
+%     yp(i+1) = temp(end);
 
     yp_plant = (Zptf*Ps/Astf)*ym(i)
     yp_plant = ss(yp_plant)
@@ -112,7 +131,18 @@ for i=2:(length(t_space)-1)
     x(i+1,:)=x0(end,:)
     yp(i+1) = temp(end);
     
-end
+ end
+% e1=yp-ym;
+plot(t_space(1:i),yp(1:i),t_space(1:i),ym(1:i))
+% figure()
+% plot(t_space,e1)
+% figure()
+% plot(t_space(2:end),a1_hat)
+% figure()
+% plot(t_space(2:end),kphat)
+% 
+% 
+% figure()
+% plot(t_space(2:end),epsilon)
 
-plot(t_space,yp)
 save workspace.mat
