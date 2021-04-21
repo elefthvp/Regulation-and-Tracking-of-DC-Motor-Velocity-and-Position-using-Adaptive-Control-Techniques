@@ -1,5 +1,6 @@
 clear all
 close all
+%% for am = 2 and c=2 it has a similar response to the controller implemented using the general theoretical analysis
 %%
 %I tested this using a sinusoid yc and it kind of works, but the error is >
 %0.1 and there is a periodic overshoot phenomenon in "steady state"
@@ -8,8 +9,8 @@ interval=0.1;
 t_space = 0:interval:100;
 
 %% constant reference definition
-am = 5; %the bigger the value of am, the longer the settling time of yp
-c = 3;
+am = 2; %the bigger the value of am, the longer the settling time of yp
+c = 2;
 yc = c *ones(1,length(t_space));
 % yc=sin(t_space);
 %% Plant Definition for simulation purposes

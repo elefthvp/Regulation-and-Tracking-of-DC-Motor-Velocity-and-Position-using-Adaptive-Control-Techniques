@@ -1,5 +1,10 @@
 clear all
 close all
+%yp(i) at zeta calculation and phi calculation has to be the actual plant
+%output and not the CE plant
+%works well for constant reference
+%is facing a problem with solution of bl = inv(syl)*bl which is probably
+%due to a mistake in theory
 %% Simulation time definition
 interval=0.1;
 t_space = 0:interval:30;
@@ -10,14 +15,15 @@ n=1;
 % q=1;
 syms c t;
 % ym = c;
-ym = sin(t)
+% ym = sin(t)
+ym=c
 [Qm,q] = calculate_Qm(ym);
 % Qm = s*(s^2+0.2^2)
 Qmtf = tf([sym2poly(Qm)],1)
 % q=3;
-% c=2;
+c=2;
 t=t_space;
-ym = double(subs(ym));
+ym = double(subs(ym))*ones(1,length(t_space));
 % ym=c*ones(1,length(t_space));
 
 
@@ -108,7 +114,6 @@ for i=1:(length(t_space)-1)
     [temp,time,x0] = lsim(yp_plant,u_1,t,x(i,:));
     x(i+1,:)=x0(end,:);
     yp(i+1) = temp(end);
-   disp(i)
  
  end
 

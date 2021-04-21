@@ -1,4 +1,5 @@
 %%works for a first order plant and a sinusoid reference
+%yp has to be y of actual plant after simulation
 %%
 clear all
 close all
