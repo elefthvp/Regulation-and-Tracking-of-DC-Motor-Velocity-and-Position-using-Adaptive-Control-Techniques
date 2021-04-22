@@ -9,15 +9,15 @@ close all;
 %% Order and simulation time definition
 n=2;
 interval = 0.01;
-t_space=[0:interval:30];
+t_space=[0:interval:12000];
 %% Model Definition
 r = 1;
-r=2*sin(t_space);
+r=sin(t_space)+sin(0.2*t_space);
 u_1=1*ones(1,length(t_space));
 % u_r =r*ones(1,length(t_space));
 u_r = r;
 numerator = 1;
-denominator = [2,3,4];
+denominator = [2,6,4];
 W_model = tf(numerator,denominator);
 % load Improved.mat
 % W_model = Hc;
@@ -81,7 +81,7 @@ gamma = 0.4;
 Gamma = gamma*eye(4);
 
 
-[theta1star,theta2star, theta3star] = mapping(W_model,Gpknown,n,s+lamda0,km,kp);
+[theta1star,theta2star, theta3star] = mapping(W_model,Gpknown,n,s+lamda0,km,kp); 
 c0star = km/kp;
 %% Initial Conditions
 rho(1)=5;
@@ -91,7 +91,7 @@ theta=[0 0 0 1/rho(1)];
 
 %% MRAC process
 for i=1:(length(t_space)-1)
-    t = t_space(i):0.001:t_space(i+1);
+    t = t_space(i):interval:t_space(i+1);
     %controller calculation
     up(i)= theta(i,:)*w(:,i);
     

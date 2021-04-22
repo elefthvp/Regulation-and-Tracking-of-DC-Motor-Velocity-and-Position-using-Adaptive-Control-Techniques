@@ -42,6 +42,15 @@ end
 
 
 strct = solve(eqns,[theta1 theta2 theta3]);
+% 
+% theta1 = solve(eqns(1),theta1)
+% theta3 = solve(eqns(3),theta3)
+% % theta2 = subs(theta2)
+% temp= double(theta3)
+% theta2=subs(theta2,theta3,temp)
+% theta2 = solve(eqns(2),theta2)
+% temp2 = matlabFunction(theta2)
+% theta2 = solve
 theta1 = strct.theta1
 theta2 = strct.theta2
 theta3 = strct.theta3

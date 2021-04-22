@@ -10,7 +10,7 @@ t_space = 0:interval:150;
 
 %% Model Definition
 am = 1;
-bm = -2;
+bm = +2;
 % r = 5;
 % r = r *ones(1,length(t_space));
 r = sin(0.2*t_space);
@@ -30,7 +30,7 @@ km=250;
 kT=0.004;
 Tm=0.5;
 a =  1/Tm;
-b = -km*kT/Tm;
+b = km*kT/Tm;
 Gp = tf(b,[1 a]);
 Gp_ss = ss(Gp); %for b,a <0 the system is unstable that's why I don't expect k, l to actually converge
 % a must be positive, b can be whatever
@@ -45,7 +45,7 @@ l=zeros;
 k_l = zeros(length(t_space),2);
 x(1)=0;
 e(1)=0;
-kstar=(am+a)/b
+kstar=(am-a)/b
 lstar=bm/b
 kp = calculate_k(Gp);
 km = calculate_k(Wm);

@@ -4,12 +4,12 @@ clear all
 close all
 %% Simulation time definition
 interval=0.1;
-t_space = 0:interval:500;
+t_space = 0:interval:1000;
 
 %% Model Definition
-am = 5;
+am = 3;
 bm = 2;
-r = 5*sin(2*pi*t_space);
+r = sin(t_space);
 % r = r *ones(1,length(t_space));
 u_r = r;
 Wm = tf(bm,[1 am]);
@@ -34,8 +34,8 @@ sign_b = sign(b);
 % lamda_inv_ss = ss(tf_Lamda_inv);
 
 %% Initialization of loop variables
-gamma1=0.8; 
-gamma2=0.5;
+gamma1=0.3; 
+gamma2=0.3;
 
 x=zeros; %x(0) = xm(0) = 0
 k=zeros;
@@ -46,9 +46,10 @@ l=zeros;
 
 %x(1)=0; 
 a_hat(1)= 0;
-b_hat(1) = 4; 
+b_hat(1) = 0.5; 
 e(1)=0;
-
+kstar = (-a+am)/b
+lstar = bm/b
 %% MRAC Process
 for i=1:(length(xm)-1)
 % i=1;

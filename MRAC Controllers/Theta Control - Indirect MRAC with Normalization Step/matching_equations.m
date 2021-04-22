@@ -2,9 +2,9 @@ function k_m = matching_equations(Wm,n,k_m,kp)
 %UNTITLED7 Summary of this function goes here
 %   Detailed explanation goes here
 n = 2;
-numerator = 1;
-denominator = [2 3 4];
-Wm = tf(numerator,denominator);
+% numerator = 1;
+% denominator = [2 3 4];
+% Wm = tf(numerator,denominator);
 
 
 syms s theta1 theta2 theta3 lamda1 lamda0 a1_hat kphat

@@ -22,8 +22,8 @@ k_m = calculate_k(Wm);
 % r = 5;
 
 
-t_space=0:0.1:800;
-r = 2*sin(2*pi*t_space)
+t_space=0:0.1:1000;
+r = sin(t_space) + sin(0.2*t_space)
 u_1=1*ones(1,length(t_space));
 % u_r =r*ones(1,length(t_space));
 u_r = r;
@@ -133,9 +133,9 @@ for i=1:(length(t_space)-1)
     a1_hat(i+1) = theta_p(i+1,2);
     
     %control law
-    theta1(i+1) = calculate_theta1(a1_hat(i+1),lamda1);
-    theta2(i+1) = calculate_theta2(a1_hat(i+1),kphat(i+1),lamda0,lamda1);
-    theta3(i+1) = calculate_theta3(a1_hat(i+1),kphat(i+1),lamda0,lamda1);
+    theta1(i+1) = calculate_theta1(-a1_hat(i+1),lamda1);
+    theta2(i+1) = calculate_theta2(-a1_hat(i+1),kphat(i+1),lamda0,lamda1);
+    theta3(i+1) = calculate_theta3(-a1_hat(i+1),kphat(i+1),lamda0,lamda1);
     c0(i+1) = k_m/kphat(i+1);
     
     theta(i+1,:) = [ theta1(i+1) theta2(i+1) theta3(i+1) c0(i+1)];
