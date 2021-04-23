@@ -1,3 +1,5 @@
+%change yp at zeta, phi calculation to actual plant output (not the CE)
+
 clear all
 close all
 %%
