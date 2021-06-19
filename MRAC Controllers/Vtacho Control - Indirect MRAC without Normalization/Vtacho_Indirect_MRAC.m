@@ -9,8 +9,8 @@ t_space = 0:interval:1000;
 %% Model Definition
 am = 3;
 bm = 2;
-r = sin(t_space);
-% r = r *ones(1,length(t_space));
+% r = sin(t_space);
+r = 2 *ones(1,length(t_space));
 u_r = r;
 Wm = tf(bm,[1 am]);
 xm = lsim(Wm,u_r,t_space);

@@ -9,12 +9,13 @@ close all;
 %% Order and simulation time definition
 n=2;
 interval = 0.01;
-t_space=[0:interval:12000];
+t_space=[0:interval:100];
 %% Model Definition
-r = 1;
-r=sin(t_space)+sin(0.2*t_space);
+r = 2;
+% r=sin(t_space)+sin(0.2*t_space);
 u_1=1*ones(1,length(t_space));
 % u_r =r*ones(1,length(t_space));
+r=r*ones(1,length(t_space));
 u_r = r;
 numerator = 1;
 denominator = [2,6,4];
@@ -91,6 +92,7 @@ theta=[0 0 0 1/rho(1)];
 
 %% MRAC process
 for i=1:(length(t_space)-1)
+%     i=1;
     t = t_space(i):interval:t_space(i+1);
     %controller calculation
     up(i)= theta(i,:)*w(:,i);

@@ -13,9 +13,9 @@ n=1;
 % q=1;
 syms c t;
 % ym = c;
-ym = sin(3*t)
+ym = sin(0.2*t)
 [Qm,q] = calculate_Qm(ym);
-% Qm = s*(s^2+0.2^2)
+Qm = (s^2+0.2^2)
 Qmtf = tf([sym2poly(Qm)],1)
 % q=3;
 % c=2;
@@ -81,22 +81,22 @@ for i=1:(length(t_space)-1)
     %adaptive law
    %estimtion error parameters
     z(i+1) = simulate_first_order(z_ss,yp(i)*u_1,t,z(i));
-    xsl(i+1) = simulate_first_order(lamda_inv_ss,yp(i)*u_1,t,xsl(i)); %mind the minus here, possibly not needed
+    xsl(i+1) = simulate_first_order(lamda_inv_ss,-yp(i)*u_1,t,xsl(i)); %mind the minus here, possibly not needed
     usl(i+1) = simulate_first_order(lamda_inv_ss,up(i)*u_1,t,usl(i));
-    theta_phi(i+1) = -a_hat(i)*xsl(i+1) + b_hat(i)*usl(i+1);
-    ms_squared = 1+[-xsl(i+1) usl(i+1)]*[-xsl(i+1) usl(i+1)]';
+    theta_phi(i+1) = a_hat(i)*xsl(i+1) + b_hat(i)*usl(i+1);
+    ms_squared = 1+[xsl(i+1) usl(i+1)]*[xsl(i+1) usl(i+1)]';
     est_error(i+1) = (z(i+1) - theta_phi(i+1))/ms_squared;
 
-   [a_hat(i+1), b_hat(i+1)] = calculate_a_b(gamma1,gamma2,est_error(i+1),-xsl(i+1),usl(i+1),t,a_hat(i),b_hat(i),b0,sign_b);
+   [a_hat(i+1), b_hat(i+1)] = calculate_a_b(gamma1,gamma2,est_error(i+1),xsl(i+1),usl(i+1),t,a_hat(i),b_hat(i),b0,sign_b);
    
-    Rp = s+a_hat(i+1);
+    Rp = s-a_hat(i+1);
     Zp = b_hat(i+1);
-    Rptf = tf([1 a_hat(i+1)],1);
+    Rptf = tf([1 -a_hat(i+1)],1);
     Zptf = tf(b_hat(i+1),1);
     
-    p0 = calculate_p0(a_hat(i+1),b_hat(i+1))
+    p0 = calculate_p0(-a_hat(i+1),b_hat(i+1))
     p1 = calculate_p1(b_hat(i+1))
-    p2 = calculate_p2(a_hat(i+1),b_hat(i+1))
+    p2 = calculate_p2(-a_hat(i+1),b_hat(i+1))
 
     Ps = tf([p2 p1 p0],1)
     Ls = tf(1)
@@ -120,3 +120,8 @@ for i=1:(length(t_space)-1)
 plot(t_space,yp)
 hold on
 plot(t_space,ym)
+hold off
+figure()
+plot(t_space,b_hat)
+hold on
+plot(t_space,a_hat)
