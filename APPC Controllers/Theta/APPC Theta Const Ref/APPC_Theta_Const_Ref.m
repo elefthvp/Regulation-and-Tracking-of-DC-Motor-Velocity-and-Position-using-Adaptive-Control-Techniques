@@ -11,7 +11,7 @@ t_space=[0:interval:30];
 kp_max = -0.1;
 
 %% Time, Reference Input and Reference Model simulation
-n=1;
+n=2;
 % c=4
 % 
 % ym = 2 + sin(t_space);
@@ -28,7 +28,7 @@ t=t_space;
 ym = double(subs(ym));
 ym=c*ones(1,length(t_space));
 
-As =s^4+s^3+5*s^2+4*s+3;
+As =s^5+3*s^4+s^3+5*s^2+4*s+3;
  
 Astf = tf([sym2poly(As)],1)
 %% Plant Model definition for simulation purposes 
@@ -105,9 +105,9 @@ for i=2:length(t_space)
     %% control law
     %calculate stuff like sylvester matrix, L, P etc here!
     %make this a function
-    Rp = s^2+a1_hat(i)*s
+    Rp = s^2-a1_hat(i)*s
     Zp = kphat(i)
-    Rptf = tf([1 a1_hat(i) 0],1)
+    Rptf = tf([1 -a1_hat(i) 0],1)
     Zptf = tf(kphat(i),1)
     
     [Ps,Ls] = calculateP_L(n,q,As,Qmtf,Rptf,Zptf);
@@ -127,7 +127,7 @@ for i=2:length(t_space)
 %     y(i+1,:)=y0(end,:)
 %     yp(i+1) = temp(end);
 
-    yp_plant = (Zptf*Ps/Astf)*ym(i)
+    x = (Zptf*Ps/Astf)*ym(i)
     yp_plant = ss(yp_plant)
     [temp,time,x0] = lsim(yp_plant,u_1,t,x(i,:))
     x(i+1,:)=x0(end,:)
@@ -147,4 +147,4 @@ plot(t_space(1:i),yp(1:i),t_space(1:i),ym(1:i))
 % figure()
 % plot(t_space(2:end),epsilon)
 
-save workspace.mat
+% save workspace.mat

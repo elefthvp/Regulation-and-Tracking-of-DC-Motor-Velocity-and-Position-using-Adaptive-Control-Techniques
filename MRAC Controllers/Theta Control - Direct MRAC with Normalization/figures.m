@@ -14,10 +14,10 @@ title('ym and yp')
 hold off
 
 figure(2)
-plot(t_space,e1)
+plot(t_space(1:length(epsilon)),e1)
 title('e1')
 hold on
-plot(t_space,epsilon)
+plot(t_space(1:length(epsilon)),epsilon)
 title('e1 and epsilon')
 legend('e1','epsilon')
 hold off
@@ -34,14 +34,14 @@ hold off
 figure(4)
 
 hold on 
-plot(t_space(1:end-1),up)
-plot(t_space,uf)
+plot(t_space(1:length(up)),up)
+plot(t_space(1:length(uf)),uf)
 title('up and uf')
 legend('up','uf')
 hold off
 
 figure(5)
-plot(t_space,theta(:,1:4))
+plot(t_space(1:1034263) ,theta(:,1:4))
 title('Theta Vector')
 legend('theta1','theta2','theta3','theta4')
 

@@ -3,7 +3,7 @@ function eq_6_31(n,q,Q,As)
 syms s p2 p1 p0 a b
 L = 1
 P = p2*s^2+p1*s+p0
-Q = s^2+9
+% Q = s^2+0.2^2
 Rp=s+a
 Zp = b
 % As = s^3 + 3*s^2+2*s+4

@@ -22,8 +22,8 @@ k_m = calculate_k(Wm);
 % r = 5;
 
 
-t_space=0:0.1:1000;
-r = sin(t_space) + sin(0.2*t_space)
+t_space=0:0.1:200;
+r = sin(t_space)
 u_1=1*ones(1,length(t_space));
 % u_r =r*ones(1,length(t_space));
 u_r = r;
@@ -80,6 +80,7 @@ w2 = zeros(length(t_space),1);
 phi2_ss = generate_phi2ss(lamda0,lamda1);
 phi_1_ic = zeros(length(t_space),2);
 phi_2_ic = zeros(length(t_space),2);
+
 phi_1 = zeros(length(t_space));
 phi_2 = zeros(length(t_space));
 
