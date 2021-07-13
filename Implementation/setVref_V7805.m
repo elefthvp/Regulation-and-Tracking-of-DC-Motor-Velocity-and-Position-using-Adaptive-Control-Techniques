@@ -1,4 +1,4 @@
-function [vref_arduino,V7805] = setVref_V7805()
+function [vref_arduino,V7805] = setVref_V7805(a)
 %call as setVref_V7805('COMX') where X=arduino port number as shown in the
 %Arduino IDE
 
@@ -6,7 +6,7 @@ function [vref_arduino,V7805] = setVref_V7805()
 velocity = analogRead(a,3);
 position = analogRead(a,5);
 
-user_entry = input('Measure reference voltage manually, then input ', 's')
+user_entry = input('Measure motor position voltage manually, then input ', 's')
 voltage = str2num(user_entry);
 
 %vref_arduino
