@@ -1,7 +1,7 @@
 clear all
 close all
 %yp(i) at zeta calculation and phi calculation has to be the actual plant
-%output and not the CE plant
+%output and not the CE plant, TEST THIS
 %works well for constant reference
 %is facing a problem with solution of bl = inv(syl)*bl which is probably
 %due to a mistake in theory
@@ -15,7 +15,7 @@ n=1;
 % q=1;
 syms c t;
 % ym = c;
-% ym = sin(t)
+% ym = sin(t)+sin(5*t)
 ym=c
 [Qm,q] = calculate_Qm(ym);
 % Qm = s*(s^2+0.2^2)
@@ -81,8 +81,9 @@ for i=1:(length(t_space)-1)
 % i=1;
     t = t_space(i):interval:t_space(i+1);
     u_1 = ones(1,length(t));
+    
     %adaptive law
-   %estimtion error parameters
+    %estimtion error parameters
     z(i+1) = simulate_first_order(z_ss,yp(i)*u_1,t,z(i));
     xsl(i+1) = simulate_first_order(lamda_inv_ss,yp(i)*u_1,t,xsl(i));
     usl(i+1) = simulate_first_order(lamda_inv_ss,up(i)*u_1,t,usl(i));
@@ -91,7 +92,9 @@ for i=1:(length(t_space)-1)
     est_error(i+1) = (z(i+1) - theta_phi(i+1))/ms_squared;
 
    [a_hat(i+1), b_hat(i+1)] = calculate_a_b(gamma1,gamma2,est_error(i+1),-xsl(i+1),usl(i+1),t,a_hat(i),b_hat(i),b0,sign_b);
-   
+    %to -xsl stin parapanw klisi kai to -ahat*xsl sto theta_phi tha
+    %mporouse isws na paraleifthei an to lavw ypopsin mia kai kali stin
+    %oloklirwsi sto xsl
     Rp = s+a_hat(i+1);
     Zp = b_hat(i+1);
     Rptf = tf([1 a_hat(i+1)],1);
