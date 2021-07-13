@@ -13,9 +13,9 @@ n=1;
 % q=1;
 syms c t;
 % ym = c;
-ym = sin(0.2*t)
+ym = sin(3*t)
 [Qm,q] = calculate_Qm(ym);
-Qm = (s^2+0.2^2)
+% Qm = (s^2+0.2^2)
 Qmtf = tf([sym2poly(Qm)],1)
 % q=3;
 % c=2;

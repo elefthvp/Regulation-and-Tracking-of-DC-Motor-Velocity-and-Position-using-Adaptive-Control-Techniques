@@ -1,3 +1,8 @@
+%%
+%Based on Direct Adaptive Tracking - p.213 only k3 etc is not
+%calculated/taken into consideration since ym is a constant and ymdot is
+%zero.
+%%
 clear all
 close all
 
