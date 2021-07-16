@@ -1,4 +1,4 @@
-function [pc_voltage,multimeter_voltage,positions] = pos_voltage2degrees(a,sampling,vref_arduino)
+function [pc_voltage,multimeter_voltage,positions] = pos_voltage_measurements(a,sampling,vref_arduino)
 %sampling: manual position shift per iteration 
 
 pc_voltage=zeros;

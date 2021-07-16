@@ -1,6 +1,12 @@
 function RPM = vel_voltage2RPM(kmu,kT,vel_voltage)
-w_in = vel_voltage/kT
-RPM = w_in/(1/kmu)
+%%
+%function that uses the lab datasheet's formulas to calculate the expected
+%RPM from a measured "vtacho" velocity.
+%kmu = 1/36
+%kT = 0.0037
+%%
+w_in = vel_voltage/kT;
+RPM = w_in/(1/kmu);
 end
 %wrote: analogWrite(a,6,30)
 %velocity was measured: 536
