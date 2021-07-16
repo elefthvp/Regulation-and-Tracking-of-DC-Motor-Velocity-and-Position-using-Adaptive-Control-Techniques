@@ -10,7 +10,7 @@ position = analogRead(a,5)
 x1 = 3 * vref_arduino * position/1023; %is this in degrees?
 velocity = analogRead(a,3)
 x2 = 2 * (2 * velocity * vref_arduino / 1023 - V7805) %velocity = zero
-analogWrite(a,9,0)
+analogWrite(ard,9,20)
 
 while(1)
     position = analogRead(a,5);
