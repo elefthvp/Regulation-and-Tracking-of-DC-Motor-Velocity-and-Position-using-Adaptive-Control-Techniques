@@ -6,14 +6,14 @@ close all
 
 %% simulation time definition
 interval=0.1;
-t_space = 0:interval:150;
+t_space = 0:interval:100;
 
 %% Model Definition
 am = 1;
 bm = +2;
-r = 5;
-r = r *ones(1,length(t_space));
-% r = sin(0.2*t_space);
+% r = 5;
+% r = r *ones(1,length(t_space));
+r = sin(0.2*t_space);
 u_r = r;
 Wm = tf(bm,[1 am]);
 xm = lsim(Wm,u_r,t_space);

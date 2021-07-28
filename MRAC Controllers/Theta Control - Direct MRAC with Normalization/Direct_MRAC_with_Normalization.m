@@ -9,7 +9,7 @@ close all;
 %% Order and simulation time definition
 n=2;
 interval = 0.01;
-t_space=[0:interval:100];
+t_space=[0:interval:10];
 %% Model Definition
 r = 2;
 % r=sin(t_space)+sin(0.2*t_space);
@@ -127,7 +127,7 @@ end
 %% Display response data, generate figures
 datam = stepinfo(ym,t_space)
 datap = stepinfo(yp,t_space)
-
-save workspace.mat
+% 
+% save workspace.mat
 figures()
 
