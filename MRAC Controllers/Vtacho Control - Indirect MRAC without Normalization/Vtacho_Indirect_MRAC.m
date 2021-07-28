@@ -4,7 +4,7 @@ clear all
 close all
 %% Simulation time definition
 interval=0.1;
-t_space = 0:interval:1000;
+t_space = 0:interval:50;
 
 %% Model Definition
 am = 3;

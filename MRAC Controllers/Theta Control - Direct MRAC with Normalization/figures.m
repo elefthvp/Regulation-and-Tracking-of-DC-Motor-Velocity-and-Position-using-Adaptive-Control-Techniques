@@ -41,7 +41,7 @@ legend('up','uf')
 hold off
 
 figure(5)
-plot(t_space(1:1034263) ,theta(:,1:4))
+plot(t_space,theta(:,1:4))
 title('Theta Vector')
 legend('theta1','theta2','theta3','theta4')
 
