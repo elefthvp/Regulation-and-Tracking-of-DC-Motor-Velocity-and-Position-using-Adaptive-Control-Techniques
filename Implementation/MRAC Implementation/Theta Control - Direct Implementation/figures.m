@@ -1,9 +1,9 @@
-function figures()
+% function figures()
 %% Figures() 
 %This function loads the whole workspace of the main script that calls it and plots all loop signals 
 %and variables to make sure they're bounded.
 %%
-load workspace.mat
+% load workspace.mat
 
 figure(3)
 plot(t_space,w1w2(:,1))
@@ -14,7 +14,7 @@ plot(t_space,w1w2(:,2))
 title('w1 and w2')
 hold off
 
-
+t_space = t_space(1:length(yp))
 figure(1)
 plot(t_space,ym(1:length(t_space)))
 hold on
@@ -38,9 +38,8 @@ hold off
 
 
 figure(4)
-
-hold on 
 plot(t_space(1:length(up)),up)
+hold on 
 plot(t_space(1:length(uf)),uf)
 title('up and uf')
 legend('up','uf')
@@ -66,15 +65,16 @@ hold on
 plot(up)
 legend('uwritten','up')
 
-
+%%
 user_entry = input('Insert folder name', 's')
 save_figures(user_entry,'test_')
 prev = pwd;
 cd (user_entry);
-calib=[30 6 2]
-save('tuning_vars','gamma','M0','q0','sigma0','interval','calib')
+% calib=[30 6 2]
+rho_init = rho(1)
+save('tuning_vars','gamma','M0','q0','sigma0','interval','rho_init')
 save('results','ym','yp','up')
 cd(prev)
 
-end
+%end
 

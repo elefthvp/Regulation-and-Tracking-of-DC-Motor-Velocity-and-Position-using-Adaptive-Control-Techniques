@@ -1,10 +1,10 @@
 function [uint uintwritten] = writeU(a,vref_arduino,u_calculated)
-calib=30;
-if(abs(u_calculated)<18)
-    calib=6;
-elseif(abs(u_calculated)<4)
-    calib=2;
-end
+calib=2;
+% if(abs(u_calculated)<18)
+%     calib=6;
+% elseif(abs(u_calculated)<4)
+%     calib=2;
+% end
 if(u_calculated<0)
     u_calculated = -u_calculated;
     analogWrite(a,9,0)

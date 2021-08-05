@@ -12,7 +12,7 @@ vref_set = exist('vref_arduino');
 if(~vref_set)
     [vref_arduino,V7805] = setVref_V7805(ard);
 end
-
+motorPowerOff(ard)
 %% TO DO
 %change t_space to a bigger interval if needed, if adaptation too slow
 %a_s calculation is a generalized function but F and g calculation is a
@@ -21,7 +21,7 @@ end
 %% Order and simulation time definition
 n=2;
 interval = 0.001;
-t_space=0:interval:7;
+t_space=0:interval:10;
 %% Model Definition
 r = 5;
 % r=sin(t_space)+sin(0.2*t_space);
@@ -44,7 +44,7 @@ kM=235.68;
 k0=0.2347;
 kmu=0.0278;
 Tm=0.564;
-a=+k0*kmu*kM;
+a=k0*kmu*kM;
 numerator = a;
 denominator = [Tm,1,0];
 Gpknown= tf(numerator,denominator);
@@ -99,19 +99,20 @@ ms_squared=zeros;
 w1w2=zeros(length(t_space),2);
 rho=zeros;
 
-gamma = 2.2;
+gamma = 7;
 Gamma = gamma*eye(4);
 
 
 [theta1star,theta2star, theta3star] = mapping(W_model,Gpknown,n,s+lamda0,km,kp); 
 c0star = km/kp;
 %% Initial Conditions
-rho(1)=0.2;
+rho(1)=3;
 w = [0 0 0 r(1)]';
 theta=[0 0 0 1/rho(1)];
 M0 = [2 2 2 2];
 q0 = [1 1 1 1];
 sigma0 = [1 1 1 1];
+M0_w = [1.5 1.5];
 
 
 %% MRAC process
@@ -139,7 +140,7 @@ for i=1:(length(t_space)-1)
     
     %theta, w and rho calculation
     theta(i+1,:)= solvethetadot(Gamma,epsilon(i+1),phi(:,i+1),theta(i,:),sgn,t,M0,q0,sigma0);
-    temp1= findw1w2(F,g,w1w2(i,:),up(i),yp(i+1),t);
+    temp1= findw1w2(F,g,w1w2(i,:),up(i),yp(i+1),t,M0_w); %,M0_w,q0,sigma0
     w1w2(i+1,:)= [temp1(1).y(end) temp1(2).y(end)];
     w(:,i+1)= [w1w2(i+1,:)' ; yp(i) ; r(i+1)];
     temp1 = update_rho(t,gamma,epsilon(i+1),xi(i+1),rho(i));
