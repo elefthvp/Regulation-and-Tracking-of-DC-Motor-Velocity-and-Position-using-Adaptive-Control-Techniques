@@ -1,7 +1,7 @@
 function figures()
 %% Figures() 
 %This function loads the whole workspace of the main script that calls it and plots all loop signals 
-%and variables. The designer can thus easily check if they're bounded, as required.
+%and variables to make sure they're bounded.
 %%
 load workspace.mat
 
