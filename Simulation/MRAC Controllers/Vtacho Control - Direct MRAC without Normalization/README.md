@@ -15,27 +15,30 @@ It more specifically follows the scalar example in section 5.2.2, as the plant u
 
 ## Plant Model
 ### First-Order Plant 
-https://latex.codecogs.com/gif.latex?%5Cdfrac%7Bvtacho%7D%7Bu%7D%3D%5Cdfrac%7Bk_m%20k_T%7D%7BT_m%20s%20&plus;1%7D%3D%5Cdfrac%7Bb%7D%7Bs&plus;a%7D
-###Parameter Values for Simulation Purposes 
+<img src="https://latex.codecogs.com/svg.latex?\dfrac{vtacho}{u}=\dfrac{k_m&space;k_T}{T_m&space;s&space;&plus;1}=\dfrac{b}{s&plus;a}" title="\dfrac{vtacho}{u}=\dfrac{k_m k_T}{T_m s +1}=\dfrac{b}{s+a}" />
+### Parameter Values for Simulation Purposes 
 <p align=justify>
-Note that the controller does not use the values of the following parameters, but estimates them instead. They are only used as a means of simulation to test the response of the system.
+Note that the controller does not use the values of the following parameters, but estimates them instead. They are only used as a means of simulation to test the response of the system.<br>
+</p>
+
 | Symbol | Value|
 |------|-------------|
 | km |235.68|
 | kT | 0.0037|
 | Tm | 0.564|
 
+---
 
 ## Degrees of Freedom
-###Designer Parameters
+### Designer Parameters
 | Variable| Description |
 |------|-------------|
 | interval| The step of the adaptive process, plays the role of the sampling frequency, discretizes the otherwise continuous-time procedure|
 | γ | adaptive gain, a scaling constant|
 
 ### Model Reference 
-| Wm | The user specified sampling frequency (`Default: 10 seconds`).|
-| r  | The brand and model of the device.|
+| am,bm | The user specified model in a state-space symbolisation. For a stable system, am needs to be positive|
+| r  | The reference signal, sets the desired output amplitude along with the steady-state gain of the reference model defined by am, bm.|
 |t_space| 
 
 ---
