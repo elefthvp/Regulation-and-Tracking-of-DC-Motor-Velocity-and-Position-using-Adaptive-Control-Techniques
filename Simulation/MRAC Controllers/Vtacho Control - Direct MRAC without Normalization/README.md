@@ -37,9 +37,11 @@ Note that the controller does not use the values of the following parameters, bu
 | γ | adaptive gain, a scaling constant|
 
 ### Model Reference 
-| am,bm | The user specified model in a state-space symbolisation. For a stable system, am needs to be positive|
-| r  | The reference signal, sets the desired output amplitude along with the steady-state gain of the reference model defined by am, bm.|
-|t_space| 
+| Variable| Description |
+|------|-------------|
+| am,bm | The user specified model in a state-space symbolisation. For a stable system, am needs to be positive                             |
+| r     | The reference signal, sets the desired output amplitude along with the steady-state gain of the reference model defined by am, bm.|
+|t_space| The time range of the simulation |
 
 ---
 
