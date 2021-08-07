@@ -10,12 +10,19 @@ The adaptive controller implemented in the main code file "Vtacho_Direct_MRAC" f
 It more specifically follows the scalar example in section 5.2.2, as the plant under control is a first-order one.
 <br>
 </p>
+<p align=justify>
+As stated in the directory name, a normalization signal does not need to be employed since the original system is stable and the adaptive controller is only used to further improve its response (i.e.in terms of settling time) or estimate its parameters. <br> </p>
+<p align = justify>
+The controller that is presented is a direct one since for every time fragment we execute an outright parameter estimation of the controller's gains rather than the system parameters a,b. 
+<br>
+</p>
 
 ---
 
 ## Plant Model
 ### First-Order Plant 
-<img src="https://latex.codecogs.com/svg.latex?\dfrac{vtacho}{u}=\dfrac{k_m&space;k_T}{T_m&space;s&space;&plus;1}=\dfrac{b}{s&plus;a}" title="\dfrac{vtacho}{u}=\dfrac{k_m k_T}{T_m s +1}=\dfrac{b}{s+a}" />
+<font color="white"> <img src="https://latex.codecogs.com/svg.latex?\dfrac{vtacho}{u}=\dfrac{k_m&space;k_T}{T_m&space;s&space;&plus;1}=\dfrac{b}{s&plus;a}" title="\dfrac{vtacho}{u}=\dfrac{k_m k_T}{T_m s +1}=\dfrac{b}{s+a}" /> </font>
+
 ### Parameter Values for Simulation Purposes 
 <p align=justify>
 Note that the controller does not use the values of the following parameters, but estimates them instead. They are only used as a means of simulation to test the response of the system.<br>
@@ -46,8 +53,7 @@ Note that the controller does not use the values of the following parameters, bu
 ---
 
 
-
-## Contact
+## Contact me
 
 - [e-mail elefthvp](mailto:el.papaioannou.96@gmail.com "el.papaioannou.96@gmail.com")
 
