@@ -21,7 +21,7 @@ The controller that is presented is a direct one since for every time fragment w
 
 ## Plant Model
 ### First-Order Plant 
-[latex]\dfrac{vtacho}{u}=\dfrac{k_m k_T}{T_m s +1}=\dfrac{b}{s+a}[/latex]
+[tex]\dfrac{vtacho}{u}=\dfrac{k_m k_T}{T_m s +1}=\dfrac{b}{s+a}[/tex]
 
 ### Parameter Values for Simulation Purposes 
 <p align=justify>
