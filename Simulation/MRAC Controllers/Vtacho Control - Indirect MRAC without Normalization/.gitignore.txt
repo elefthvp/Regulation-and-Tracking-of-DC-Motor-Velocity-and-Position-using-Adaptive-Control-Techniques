@@ -1,0 +1,3 @@
+rsin5000s
+rconstant30s
+*.png
