@@ -1,7 +1,7 @@
 function figures()
 %% Figures() 
 %This function loads the whole workspace of the main script that calls it and plots all loop signals 
-%and variables. The designer can thus easily check if they're bounded, as required.
+%and variables to make sure they're bounded.
 %%
 load workspace.mat
 
@@ -13,22 +13,16 @@ plot(t_space,x)
 legend('x desired','x trajectory'); 
 hold off
 
-
 figure(2)
 plot(t_space,e)
 title('e')
 
 figure(3)
-plot(t_space,k_l(:,1))
-title('k')
-
+erelative=(abs(e)./xm')*100;
+plot(t_space,erelative);
+title('relative error')
 
 figure(4)
-plot(t_space,k_l(:,2))
-title('l')
-
-
-figure(5)
 plot(t_space(1:end-1),u)
 title('u')
 

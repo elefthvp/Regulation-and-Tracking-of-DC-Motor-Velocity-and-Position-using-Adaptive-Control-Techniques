@@ -1,5 +1,4 @@
 function k = calculate_k(transfer_function)
-%calculates steady state gain of transfer function 
 [num,den]=tfdata(transfer_function);
 num = cell2mat(num);
 den = cell2mat(den);
