@@ -44,7 +44,7 @@ Note that the controller does not use the values of the following parameters, bu
 
 ### Reference 
 | Variable| Description |
-|------|-------------|                         |
+|------|-------------|                         
 | As | The desired polynomial whose poles our system needs to mimic. Has to be of order 2n+q-1|
 |t_space| The time range of the simulation |
 
