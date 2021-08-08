@@ -1,5 +1,5 @@
 function [k1new, k2new,k3new] = calculate_k(gamma1,gamma2,gamma3,e,ym,ymdot,t,k1_prev,k2_prev,k3_prev,sgnb)
- 
+ %gain integration for controller gains k1, k2, k3  
  k1dot = gamma1*e^2*sgnb;
  temp = ode45(@(t,k)k1dot,t,k1_prev);
  k1new=temp.y(end);

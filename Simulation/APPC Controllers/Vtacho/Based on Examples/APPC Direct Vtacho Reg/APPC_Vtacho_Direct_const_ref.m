@@ -14,9 +14,9 @@ t_space = 0:interval:100;
 yc = 3;
 yc = yc *ones(1,length(t_space));
 %% Plant Definition for simulation purposes
-km=250;
-kT=0.004;
-Tm=0.5;
+km=235.68;
+kT=0.0037;
+Tm=0.564;
 a = + 1/Tm;
 b = km*kT/Tm;
 Gp = tf(b,[1 a]);
@@ -27,9 +27,9 @@ gamma2=0.3;
 y=zeros;
 e=zeros;
 u=zeros;
-k1 = zeros(length(t_space),1)
-k2 = zeros(length(t_space),1)
-sgnb = sign(b)
+k1 = zeros(length(t_space),1);
+k2 = zeros(length(t_space),1);
+sgnb = sign(b);
 
 %% APPC process
 for i=1:(length(yc)-1)
