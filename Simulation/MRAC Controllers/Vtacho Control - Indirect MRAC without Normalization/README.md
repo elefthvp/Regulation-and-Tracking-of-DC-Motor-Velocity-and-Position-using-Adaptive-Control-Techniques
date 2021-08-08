@@ -42,6 +42,7 @@ Note that the controller does not use the values of the following parameters, bu
 |------|-------------|
 | interval| The step of the adaptive process, plays the role of the sampling frequency, discretizes the otherwise continuous-time procedure|
 | γ | adaptive gain, a scaling constant|
+| b0 | a gain limit under which the estimated b parameter is not allowed to go, to avoid division by 0|
 
 ### Model Reference 
 | Variable| Description |
