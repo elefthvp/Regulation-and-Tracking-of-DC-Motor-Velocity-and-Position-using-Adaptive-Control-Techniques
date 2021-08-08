@@ -18,11 +18,6 @@ end
 %after acquiring the data: 
 % error = pc_voltage-multimeter_voltage
 % mean(error) = 0.0351
-
-
-
-
-
 end
 
 

@@ -1,8 +1,9 @@
 function [vref_arduino,V7805] = setVref_V7805(a)
 %call as setVref_V7805('COMX') where X=arduino port number as shown in the
-%Arduino IDE
+%Arduino IDE Ports 
+%motor must be stopped while setting these values
 
-
+%read raw data
 velocity = analogRead(a,3);
 position = analogRead(a,5);
 

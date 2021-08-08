@@ -19,7 +19,5 @@ for i = 1:length(n)
    
    user_entry = input('Measure voltage manually, then input ', 's')
    multimeter_velocity(i) = str2num(user_entry);
-   % pause %don't need this, the change is now written digitally, not
-   % manually
 end
 end
