@@ -1,5 +1,5 @@
-
 %% April 2021 update
+
 %%
 clear all
 close all
@@ -9,7 +9,7 @@ interval=0.1;
 t_space = 0:interval:100;
 
 %% Model Definition
-am = 1;
+am = 2;
 bm = +2;
 % r = 5;
 % r = r *ones(1,length(t_space));
