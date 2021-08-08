@@ -1,6 +1,5 @@
 function [Qm,q] = calculate_Qm(ym)
 syms c t;
-% ym = c+sin(t)
 if(ym == c)
     c=1;%any constant works
     ym = subs(ym);

@@ -6,10 +6,8 @@ syms s
 [num,den] = tfdata(p1);
 d = cell2mat(num);
 n1 = length(d);
-% p1poly = poly2sym(d,s);
-% p1c = coeffs(p1poly);
-p1c= d;
 
+p1c= d;
 [num,den]=  tfdata(p2);
 d = cell2mat(num);
 n2=length(d);

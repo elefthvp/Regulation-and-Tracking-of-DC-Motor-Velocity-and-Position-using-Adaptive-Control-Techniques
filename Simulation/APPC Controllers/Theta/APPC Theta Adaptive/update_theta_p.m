@@ -1,11 +1,11 @@
 function thetap_new = update_theta_p(t,Gamma,epsilon,phi,kp_min,thetap_prev)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%parameter estimation of k and a, using projection to avoid kp drifting to
+%zero and causing a division by zero
 kpprev = thetap_prev(1);
 for i =1:2
     if (i ==1 )
         if ( (kpprev < kp_min) || ((kpprev == kp_min) && (epsilon*phi(i) <= 0 )))
-        thetap_dot = Gamma(i,i)*epsilon*phi(i); %needs minus?
+        thetap_dot = Gamma(i,i)*epsilon*phi(i);
         else
         thetap_dot = 0;
         end
