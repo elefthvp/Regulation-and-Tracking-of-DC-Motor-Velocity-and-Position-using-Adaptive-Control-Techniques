@@ -7,7 +7,7 @@
 ## Mathematical Methodology 
 <p align=justify>
 The adaptive controller implemented in the main code file "Direct_MRAC_with_Normalization" follows the well-established theoretical analyses of mr. Petros Ioannou and mr. Baris Fidan as presented in their book "Adaptive Control Tutorial".
-It is more specifically based on the methodology of chapter 5.5 but the designer is encouraged to also refer to chapter 5.3 for the main idea behind the methodology, as well as the other essential elements found throughout the book that are required for an engineer to understant and efficiently utilise this control scheme.
+It is more specifically based on the methodology of chapter 5.5 but the designer is encouraged to also refer to chapter 5.3 for the main idea behind the methodology, as well as the other essential elements found throughout the book that are required for an engineer to understand and efficiently utilise this control scheme.
 <br>
 </p>
 <p align=justify>
