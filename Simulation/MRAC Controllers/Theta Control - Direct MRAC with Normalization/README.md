@@ -11,7 +11,7 @@ It is more specifically based on the methodology of chapter 5.5 but the designer
 <br>
 </p>
 <p align=justify>
-As stated in the directory name, a normalization signal needs to be employed since the original system is unstable (refer to the transfer function presented below) and as it's widely known in control theory, the design of any controller holds no meaning if a system is unstable in the first place. The implemented adaptive controller guarantees stability by bounding the ouptut system used as feedback and estimates its parameters when excited with an sufficiently rich input. <br> </p>
+As stated in the directory name, a normalization signal needs to be employed since the original system is unstable (refer to the transfer function presented below) and as it is widely known in control theory, the design of any controller holds no meaning if a system is unstable in the first place. The implemented adaptive controller guarantees stability by bounding the ouptut system used as feedback and estimates its parameters when excited with a sufficiently rich input. <br> </p>
 <p align = justify>
 The controller that is presented is a direct one since for every time fragment we execute an outright parameter estimation of the controller's gains rather than the system parameters a,b. 
 <br>
