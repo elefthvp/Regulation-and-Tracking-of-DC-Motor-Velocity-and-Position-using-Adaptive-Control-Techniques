@@ -1,4 +1,5 @@
 function a_s = generate_a_s(n)
+%a_s generation, a polyomial of degree n: s^n+s^n-1+....+1
 syms s
 a_s=s^0;
 

@@ -12,13 +12,13 @@ function [Ps, Ls] = calculateP_L(n,q,A,Qm,Rp,Zp)
     bl = inv(syl)*al';
     bl=bl';
     
-    %
+    
     lq = bl(1:n+q);
     Ls = generate_a_s(n-1);
-    lmult = lq(q+1:end); %mipws thelei q+2 edit: mporw na valw q+1 pou ksekinaei apo 1 kai na paraleipsw etsi to lmult = [1 l]
-%     lmult=[1 l];
+    lmult = lq(q+1:end);
+
     Ls = lmult*Ls;
-    %
+    
     p = bl(n+q+1:end);
     Ps = generate_a_s(n+q-1);
     Ps = p*Ps;
