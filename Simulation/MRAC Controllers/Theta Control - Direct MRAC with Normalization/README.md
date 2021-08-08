@@ -1,6 +1,6 @@
 
 ## Title
-<b>Direct Model Reference Adaptive Controller for Output Voltage control of a DC motor </b>
+<b>Direct Model Reference Adaptive Controller for Output Position Voltage control of a DC motor </b>
 
 ---
 
@@ -21,7 +21,7 @@ The controller that is presented is a direct one since for every time fragment w
 
 ## Plant Model
 ### Second-Order Plant 
-<img src="https://latex.codecogs.com/gif.latex?\dfrac{\theta}{v}&space;=&space;\dfrac{-k_0&space;k_\mu&space;k_M}{T_m&space;s^2&space;&plus;s}&space;=&space;\dfrac{b}{s^2&space;&plus;&space;as}" title="\dfrac{\theta}{v} = \dfrac{-k_0 k_\mu k_M}{T_m s^2 +s} = \dfrac{b}{s^2 + as}" />
+<img src="https://latex.codecogs.com/gif.latex?\bg_white&space;\large&space;\dfrac{\theta}{v}&space;=&space;\dfrac{-k_0&space;k_\mu&space;k_M}{T_m&space;s^2&space;&plus;s}&space;=&space;\dfrac{b}{s^2&space;&plus;&space;as}" title="\large \dfrac{\theta}{v} = \dfrac{-k_0 k_\mu k_M}{T_m s^2 +s} = \dfrac{b}{s^2 + as}" />
 
 
 ### Parameter Values for Simulation Purposes 
