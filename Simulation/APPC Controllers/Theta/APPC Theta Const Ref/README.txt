@@ -1,1 +1,0 @@
-Indirect APPC Scheme based on the control technique presented in 6.3

@@ -5,39 +5,29 @@ close all
 %%
 syms s
 n=2;
-% q=1;
 interval = 0.1;
 t_space=[0:interval:80];
 kp_max = -0.1;
 
 %% Time, Reference Input and Reference Model simulation
 n=2;
-% c=4
-% 
-% ym = 2 + sin(t_space);
-% ym = 
-% Qm = s;
+
 syms c t;
-% ym = sin(t);
 ym = c;
-% ym=sin(2*t)
 [Qm,q] = calculate_Qm(ym);
-% Qm = s*(s^2+0.2^2)
-Qmtf = tf([sym2poly(Qm)],1)
-% q=3;
+Qmtf = tf([sym2poly(Qm)],1);
 c=2;
 t=t_space;
 ym = double(subs(ym));
 ym=ym*ones(1,length(t_space));
 
 As =s^4+s^3+5*s^2+4*s+3;
-%s^5+3
-Astf = tf([sym2poly(As)],1)
+Astf = tf([sym2poly(As)],1);
 %% Plant Model definition for simulation purposes 
-kM=250;
-k0=0.2;
-kmu=1/30;
-Tm=0.5;
+kM=235.68;
+k0=0.2347;
+kmu=1/36;
+Tm=0.564;
 a=-k0*kmu*kM;
 numerator = a;
 denominator = [Tm,1,0];
@@ -53,7 +43,7 @@ lamda1 = 4;
 lamda0 = 4;
 %% Adaptive Law variables initialization
 Lamda_inv_tf = tf(1, [1 lamda1 lamda0]);
-Lamda_inv_ss = ss(Lamda_inv_tf); %%CHECK AGAIN
+Lamda_inv_ss = ss(Lamda_inv_tf);
 
 %z = s^2/Lamda
 zss = generate_zss(lamda0,lamda1);
@@ -81,14 +71,6 @@ Gamma = gamma*eye(length(theta_p(1,:)));
 x = zeros(length(t_space),2); 
 %2*n+q-1
 uic = zeros(length(t_space),n+q-1);
-
-% Rp = s^2+a*s  %why -?
-% Zp = kphat(i)
-% Rptf = tf([1 +a1_hat(i) 0],1)
-% Zptf = tf(kphat(i),1)
-    
-% [Ps,Ls] = calculateP_L(n,q,As,Qmtf,Rptf,Zptf);
-% Cs = Ps/(Qmtf*Ls);
 %% APPC Process
 for i=92:length(t_space)
     t = t_space(i-1):0.01:t_space(i);
@@ -113,9 +95,7 @@ for i=92:length(t_space)
 
  
     %% control law
-    %calculate stuff like sylvester matrix, L, P etc here!
-    %make this a function
-     %find ss model manually?
+    %calculate sylvester matrix, L and polynomials here!
     Rp = s^2+a1_hat(i)*s  %why -?
     Zp = kphat(i)
     Rptf = tf([1 +a1_hat(i) 0],1)
@@ -124,23 +104,17 @@ for i=92:length(t_space)
     [Ps,Ls] = calculateP_L(n,q,As,Qmtf,Rptf,Zptf);
     Cs = Ps/(Qmtf*Ls);
     %% u and y update
-    up_plant =  - Cs*(yp(i)-ym(i)) %no index because this is a tf
-%     up_plant = ((Lamda - Ls*Qmtf)/Lamda)*up(i-1)-(Ps/Lamda)*(yp(i-1)-ym(i-1))
-    up_plant = ss(up_plant)
-    [temp,time,u0] = lsim(up_plant,u_1,t,uic(i,:))
-    uic(i+1,:)=u0(end,:)
+    up_plant =  - Cs*(yp(i)-ym(i)); %no index because this is a tf
+    % up_plant = ((Lamda - Ls*Qmtf)/Lamda)*up(i-1)-(Ps/Lamda)*(yp(i-1)-ym(i-1))
+    up_plant = ss(up_plant);
+    [temp,time,u0] = lsim(up_plant,u_1,t,uic(i,:));
+    uic(i+1,:)=u0(end,:);
     up(i+1) = temp(end);
-    
-    %Calculating up (i+1) and simulating with the usual way does not bear
-    %the right results in this one.
-%     [temp,time,y0]= lsim(Gpknownss,up(i+1)*(u_1),t,y(i,:))
-%     y(i+1,:)=y0(end,:)
-%     yp(i+1) = temp(end);
 
     yp_plant = (Zptf*Ps/Astf)*ym(i) %this was x, i changed to yp_plant
     yp_plant = ss(yp_plant)
-%     yp_plant = Gpknown*up(i+1);
-%     yp_plant=ss(yp_plant);
+%   yp_plant = Gpknown*up(i+1);
+%   yp_plant=ss(yp_plant);
     [temp,time,x0] = lsim(yp_plant,u_1,t,x(i,:))
     x(i+1,:)=x0(end,:)
     yp(i+1) = temp(end);

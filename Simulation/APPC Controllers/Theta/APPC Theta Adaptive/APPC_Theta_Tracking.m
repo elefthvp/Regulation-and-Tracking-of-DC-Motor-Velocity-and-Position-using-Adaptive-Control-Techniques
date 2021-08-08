@@ -4,41 +4,30 @@ close all
 %%
 syms s
 n=2;
-% q=1;
 interval = 0.01;
 t_space=[0:interval:10];
 kp_max = -0.1;
 
 %% Time, Reference Input and Reference Model simulation
 n=2;
-% c=4
-% 
 % ym = 2 + sin(t_space);
-% ym = 
-% Qm = s;
 syms c t;
 c=1;
 ym = sin(c*t);
-% ym = c;
-% ym=sin(2*t)
+
 [Qm,q] = calculate_Qm(ym);
-% Qm = s*(s^2+0.2^2)
 Qmtf = tf([sym2poly(Qm)],1);
-% q=3;
-% c=2;
-%ym=0;
+
 t=t_space;
 ym = 2*double(subs(ym));
-% ym=ym*ones(1,length(t_space));
 
 As =s^5+3*s^4+s^3+5*s^2+4*s+3;
-%
 Astf = tf([sym2poly(As)],1);
 %% Plant Model definition for simulation purposes 
-kM=250;
-k0=0.2;
-kmu=1/30;
-Tm=0.5;
+kM=235.68;
+k0=0.2347;
+kmu=1/36;
+Tm=0.564;
 a=-k0*kmu*kM;
 numerator = a;
 denominator = [Tm,1,0];
@@ -84,14 +73,8 @@ x = zeros(length(t_space),2);
 %2*n+q-1
 uic = zeros(length(t_space),n+q-1);
 %n+q-1
-ym(1)=0.04 
-% Rp = s^2-a*s  %why -?
-% Zp = kphat(i)
-% Rptf = tf([1 -a1_hat(i) 0],1)
-% Zptf = tf(kphat(i),1)
-%     
-% [Ps,Ls] = calculateP_L(n,q,As,Qmtf,Rptf,Zptf);
-% Cs = Ps/(Qmtf*Ls);
+ym(1)=0.04; %to avoid system going to zero during 
+
 %% APPC Process
 for i=2:length(t_space)
     t = t_space(i-1):0.002:t_space(i);
@@ -118,39 +101,30 @@ for i=2:length(t_space)
 
  
     % control law
-    %calculate stuff like sylvester matrix, L, P etc here!
-    %make this a function
-     %find ss model manually?
-    Rp = s^2+a1_hat(i)*s;  %why -? a1 is calculated as part of a state space, in the right side and a minus is taken into 
-    %consideration. in order to transform back to transfer function
-    %notation a minus is added 
+    %calculate sylvester matrix, L and P here!
+    Rp = s^2+a1_hat(i)*s;
     Zp = kphat(i) ;
     Rptf = tf([1 +a1_hat(i) 0],1);
     Zptf = tf(kphat(i),1);
     
     [Ps,Ls] = calculateP_L(n,q,As,Qmtf,Rptf,Zptf);
     Cs = Ps/(Qmtf*Ls);
-%     % u and y update
+    
+    % u and y update
     up_plant =  - Cs*(yp(i)-ym(i)) %no index because this is a tf
-%     up_plant = ((Lamda - Ls*Qmtf)/Lamda)*up(i-1)-(Ps/Lamda)*(yp(i-1)-ym(i-1)) % wrong Lamda
-%     anyway
-%     up_plant = ss(up_plant)
+%   up_plant = ((Lamda - Ls*Qmtf)/Lamda)*up(i-1)-(Ps/Lamda)*(yp(i-1)-ym(i-1))
+%   up_plant = ss(up_plant)
     up_plant = ThirdOrderCCF(up_plant);
     [temp,time,u0] = lsim(up_plant,u_1,t,uic(i,:));
     uic(i+1,:)=u0(end,:)
     up(i+1) = temp(end);
     
-% 
 %     yp_plant = (Zptf*Ps/Astf)*ym(i) ;%this was x, i changed to yp_plant
 %     yp_plant = FifthOrderCCF(yp_plant);
    
     [temp,time,x0] = lsim(Gpknownss,up(i+1)*u_1,t,x(i,:))
     x(i+1,:)=x0(end,:)
     yp(i+1) = temp(end);
-%     if(i>500)
-%         plot(t_space(1:i),yp(1:i),t_space(1:i),ym(1:i))
-%         pause
-%     end
 end
  %%
 % e1=yp-ym;
