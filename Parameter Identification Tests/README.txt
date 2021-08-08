@@ -1,1 +1,0 @@
-The codes in these folders test the convergence of controller parameters to the actual ones when the regressor vector phi is PE
