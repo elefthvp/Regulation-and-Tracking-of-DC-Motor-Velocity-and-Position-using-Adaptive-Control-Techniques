@@ -7,9 +7,6 @@ a_hat_new=temp.y(end);
 
 
 %b_hat calculation using Projection
-%  expr = ( abs(b_hat_prev) > b0 ) | (abs(b_hat_prev) == b0 & e*u*sign(b_hat_prev) >=0);
-%  ldot = -gamma2*e*r*sign_b;
-
  if ( (b_hat_prev > b0) || ((b_hat_prev == b0) &&  (e*u*sign_b >= 0 )))
         b_hat_dot = gamma2*e*u;
  else
