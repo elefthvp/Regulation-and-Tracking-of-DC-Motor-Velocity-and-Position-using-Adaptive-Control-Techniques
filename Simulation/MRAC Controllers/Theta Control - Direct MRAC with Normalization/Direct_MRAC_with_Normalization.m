@@ -98,9 +98,10 @@ theta=[0 0 0 1/rho(1)];
 
 %% MRAC process
 for i=1:(length(t_space)-1)
-%     i=1;
+    
     t = t_space(i):interval:t_space(i+1);
-    %controller calculation
+    
+    %controller output calculation
     up(i)= theta(i,:)*w(:,i);
     
     %ouput calculation

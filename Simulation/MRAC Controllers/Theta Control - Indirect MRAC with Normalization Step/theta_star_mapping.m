@@ -41,8 +41,10 @@ for i=1:length(eqns)
     end
 end
 
+%solve system
 strct = solve(eqns_f,[theta1 theta2 theta3]);
 
+%return values
 theta1 = strct.theta1;
 theta2 = strct.theta2;
 theta3 = strct.theta3;

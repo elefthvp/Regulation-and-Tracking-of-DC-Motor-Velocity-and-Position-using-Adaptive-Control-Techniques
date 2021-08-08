@@ -1,6 +1,7 @@
 function thetap_new = update_theta_p(t,Gamma,epsilon,phi,kp_min,thetap_prev)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%integration of the theta_p vector that contains estimates of k, a to
+%decide their next values. Parameter projection is employed for kp to avoid
+%division by s.
 kpprev = thetap_prev(1);
 for i =1:2
     if (i ==1 )

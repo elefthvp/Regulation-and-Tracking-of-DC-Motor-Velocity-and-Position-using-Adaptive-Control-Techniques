@@ -4,7 +4,7 @@ close all;
 %% Wm definition, Lamda coefficients definition and matching equations solution to generate functions
 n = 2;
 numerator = 1;
-denominator = [2 3 4];
+denominator = [2 6 4];
 Wm = tf(numerator,denominator);
 
 %Define Lamda Polynomial Parameters
@@ -18,21 +18,17 @@ k_m = calculate_k(Wm);
 
 
 %% Time, Reference Input and Reference Model simulation
-
 % r = 5;
-
-
-t_space=0:0.1:200;
-r = sin(t_space)
-u_1=1*ones(1,length(t_space));
 % u_r =r*ones(1,length(t_space));
-u_r = r;
 
-% Wm = lsim(W_model,u_1,t_space);
+t_space = 0:0.1:200;
+r = sin(t_space);
+u_1=1*ones(1,length(t_space));
+
+u_r = r;
 ym= lsim(Wm,u_r,t_space);
 
 %% Plant Model definition for simulation purposes 
-
 kM=250;
 k0=0.2;
 kmu=1/30;
@@ -41,10 +37,15 @@ a=-k0*kmu*kM;
 numerator = a;
 denominator = [Tm,1,0];
 Gpknown= tf(numerator,denominator);
+
 k_p = calculate_k(Gpknown);
 
+%generate the matching equations that calculate theta vector for every time
+%instant during the adaptive loop process 
 matching_equations(Wm,n,k_m,k_p);
+
 %% Matrix Initializations
+
 % Adaptive law parameters 
 theta_p = zeros(length(t_space),2);
 kphat = zeros;
@@ -70,14 +71,14 @@ w = [0 0 0 r(1)]';
 % transformations
 % 1/Lamda
 Lamda_inv_tf = tf(1, [1 lamda1 lamda0]);
-Lamda_inv_ss = ss(Lamda_inv_tf); %%CHECK AGAIN
+Lamda_inv_ss = ss(Lamda_inv_tf);
 w1_ic = zeros(length(t_space),2);
 w2_ic = zeros(length(t_space),2);
 w1 = zeros(length(t_space),1);
 w2 = zeros(length(t_space),1);
 
 %phi2
-phi2_ss = generate_phi2ss(lamda0,lamda1);
+phi2_ss = generate_phi2ss(lamda0,lamda1); 
 phi_1_ic = zeros(length(t_space),2);
 phi_2_ic = zeros(length(t_space),2);
 
@@ -87,8 +88,6 @@ phi_2 = zeros(length(t_space));
 %z = s^2/Lamda
 zss = generate_zss(lamda0,lamda1);
 z1z2 = zeros(length(t_space),2);
-
-
 
 up=zeros;
 y=zeros(length(t_space),2);
@@ -102,11 +101,11 @@ syms s
 c0star = k_m/k_p;
 %% MRAC process
 for i=1:(length(t_space)-1)
-% i=1;   
     %controller calculation - adaptive law & control law combination
     t = t_space(i):0.1:t_space(i+1);
     u_1=ones(1,length(t));
     
+    %controller output calculation
     up(i)= theta(i,:)*w(:,i);
     
     %update yp
