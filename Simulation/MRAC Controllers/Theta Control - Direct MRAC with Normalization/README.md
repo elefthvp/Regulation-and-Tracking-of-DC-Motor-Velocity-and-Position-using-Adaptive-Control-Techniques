@@ -1,6 +1,6 @@
 
 ## Title
-<b>Direct Model Reference Adaptive Controller for Output Voltage control of a DC motor </b>
+<b>Direct Model Reference Adaptive Controller for Output Position Voltage control of a DC motor </b>
 
 ---
 
