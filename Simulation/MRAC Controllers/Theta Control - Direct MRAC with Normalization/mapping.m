@@ -1,6 +1,4 @@
 function [theta1,theta2, theta3] = mapping(Wm,Gp,n,Lamda,km,kp)
-%the first part of Rm,Zm,Rp,Zp definition etc is identical to the previous
-%function, and so is the polynomial reduce part. 
 %As far as the equation of
 %respective s powers in both parts is concerned, what we do is bring all
 %the terms in the left part, get the coeffs (as a means of factorization)
@@ -28,7 +26,6 @@ Q = q;
 
 %eqn1 and eqn2 are the two equations from which the theta vector will be
 %calculated, according to the theoretical analysis
-
 %eqns contains the total system equations
 
 eqn1 = theta1 - (Lamda - Z_p*Q) == 0;
