@@ -17,9 +17,9 @@ c = 2; %constant reference
 yc = c *ones(1,length(t_space));
 % yc=sin(t_space);
 %% Plant Definition for simulation purposes
-km=250;
-kT=0.004;
-Tm=0.5;
+km=235.68;
+kT=0.0037;
+Tm=0.564;
 a = + 1/Tm;
 b = km*kT/Tm;
 Gp = tf(b,[1 a]);
