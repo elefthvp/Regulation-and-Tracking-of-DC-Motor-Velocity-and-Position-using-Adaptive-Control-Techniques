@@ -1,35 +1,42 @@
 clear all;
 close all;
 
-%% TO DO
-%change t_space to a bigger interval if needed, if adaptation too slow
+%%
 %a_s calculation is a generalized function but F and g calculation is a
 %hard-wired, manually set part.
-%better initial conditions for rho, w, theta vector?
 %% Order and simulation time definition
 n=2;
 interval = 0.01;
 t_space=[0:interval:10];
 %% Model Definition
+
 r = 2;
 % r=sin(t_space)+sin(0.2*t_space);
-u_1=1*ones(1,length(t_space));
-% u_r =r*ones(1,length(t_space));
 r=r*ones(1,length(t_space));
+
+
+% u_r =r*ones(1,length(t_space));
+
+%Set model 
 u_r = r;
+u_1=1*ones(1,length(t_space));
 numerator = 1;
 denominator = [2,6,4];
 W_model = tf(numerator,denominator);
-% load Improved.mat
-% W_model = Hc;
+
+%Simulate transfer function with a unit input, simulate model with actual
+%reference
 Wm = lsim(W_model,u_1,t_space);
 ym= lsim(W_model,u_r,t_space);
 
 %% Plant Definition for simulation purposes
-kM=250;
-k0=0.2;
-kmu=1/30;
-Tm=0.5;
+%Parameters 
+kM=235.68;
+k0=0.2347;
+kmu=0.0278;
+Tm=0.564;
+
+%Transfer function
 a=-k0*kmu*kM;
 numerator = a;
 denominator = [Tm,1,0];
@@ -66,6 +73,7 @@ lamda0=2;
 F=-lamda0;
 g=1;
 
+%Control and Adaptive Law parameters initialization
 theta=zeros(length(t_space),4);
 w=zeros(4,length(t_space));
 
@@ -81,14 +89,12 @@ rho=zeros;
 gamma = 0.4;
 Gamma = gamma*eye(4);
 
-
 [theta1star,theta2star, theta3star] = mapping(W_model,Gpknown,n,s+lamda0,km,kp); 
 c0star = km/kp;
 %% Initial Conditions
 rho(1)=5;
 w = [0 0 0 r(1)]';
 theta=[0 0 0 1/rho(1)];
-
 
 %% MRAC process
 for i=1:(length(t_space)-1)
@@ -104,9 +110,9 @@ for i=1:(length(t_space)-1)
     yp(i+1)= y(i+1,1);
     
     
-    %helpful law signals calculation
-    uf(i+1)=Wm(i+1)*up(i); %change this to Wm(i) ?
-    phi(:,i+1)=-Wm(i+1)*w(:,i); %this too
+    %helpful intermediate law signals calculation
+    uf(i+1)=Wm(i+1)*up(i);
+    phi(:,i+1)=-Wm(i+1)*w(:,i);
     xi(i+1)= theta(i,:)* phi(:,i+1) + uf(i+1);
     ms_squared(i+1)=1+ phi(:,i+1)'* phi(:,i+1) + uf(i+1)^2;
     e1(i+1)= yp(i+1)-ym(i+1);
@@ -124,10 +130,10 @@ for i=1:(length(t_space)-1)
     
 end
 
-%% Display response data, generate figures
+%% Display system response data and generate figures
 datam = stepinfo(ym,t_space)
 datap = stepinfo(yp,t_space)
-% 
-% save workspace.mat
+
+save workspace.mat
 figures()
 

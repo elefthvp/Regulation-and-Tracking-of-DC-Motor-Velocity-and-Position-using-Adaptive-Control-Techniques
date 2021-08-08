@@ -24,7 +24,6 @@ hold off
 
 figure(3)
 plot(t_space,w1w2(:,1))
-% title('w1')
 hold on
 
 plot(t_space,w1w2(:,2))
