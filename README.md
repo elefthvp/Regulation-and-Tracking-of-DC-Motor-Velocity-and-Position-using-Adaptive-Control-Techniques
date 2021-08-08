@@ -5,5 +5,6 @@
 ## Implementation
 <p align=justify> The contents of this directory are used to slightly modify the original controllers used for digital simulations in order to carry out experiments on the real-life plant <br> </p?
 
+____________________
 ### ACKNOWLEDGEMENTS
 I especially appreciate the guidance of professor George Rovitahkis who supervises this thesis. I express my admiration towards mr. Petros Ioannou and mr. Baris Fidan regarding their work on the "Adaptive Control Tutorial" book that I thoroughly studied to implement my control schemes. 
