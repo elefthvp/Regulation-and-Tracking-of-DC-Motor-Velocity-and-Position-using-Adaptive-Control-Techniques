@@ -8,3 +8,9 @@
 ____________________
 ### ACKNOWLEDGEMENTS
 I especially appreciate the guidance of professor George Rovitahkis who supervises this thesis. I express my admiration towards mr. Petros Ioannou and mr. Baris Fidan regarding their work on the "Adaptive Control Tutorial" book that I thoroughly studied to implement my control schemes. 
+
+TO DO
+1. add license
+2. add contact info to all 
+3. add experiments results
+4. publish
