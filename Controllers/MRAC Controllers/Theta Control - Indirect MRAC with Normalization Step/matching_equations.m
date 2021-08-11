@@ -20,7 +20,7 @@ R_p = s^2+a1_hat*s;
 Z_p = 1;
 
 
-Lamda = s^2+lamda1*s+lamda0; %designer parameter 
+Lamda = lamda1*s+lamda0; %designer parameter s^2+
 
 a_s=zeros;
 if (n>2)
@@ -59,17 +59,8 @@ for i=1:length(coeffs_1)
     count=count+1;
 end
 
-count = 0;
-syms eqns_f
-for i=1:length(eqns)
-    if((has(eqns(i),theta1) || has(eqns(i),theta2) || has(eqns(i),theta3)) && length(children(lhs(eqns(i))))~=1)
-        count = count+1;
-        eqns_f(count) = eqns(i);
-    end
-end
-
 %solve system
-strct = solve(eqns_f,[theta1 theta2 theta3]);
+strct = solve(eqns,[theta1 theta2 theta3]);
 
 %return values
 matlabFunction(strct.theta3,'File','calculate_theta3');

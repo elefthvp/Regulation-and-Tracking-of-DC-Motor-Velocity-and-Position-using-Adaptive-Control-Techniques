@@ -38,7 +38,7 @@ numerator = a;
 denominator = [Tm,1,0];
 Gpknown= tf(numerator,denominator);
 
-k_p = calculate_k(Gpknown);
+[k_p,a1star] = calculate_k(Gpknown);
 
 %generate the matching equations that calculate theta vector for every time
 %instant during the adaptive loop process 
@@ -97,8 +97,12 @@ gamma = 0.3;
 Gamma = gamma*eye(length(theta_p(1,:)));
 
 syms s
-[theta1star, theta2star, theta3star] = theta_star_mapping(Wm,Gpknown,n,s^2+lamda1*s+lamda0,k_m,k_p);
+%Theta Star Calculation using the auto-generated calculate theta functions and the actual k_p, a1 of the plant
+theta1star = calculate_theta1(a1star,lamda1); 
+theta2star  = calculate_theta2(a1star,k_p,lamda0,lamda1);
+theta3star  = calculate_theta3(a1star,k_p,lamda0,lamda1);
 c0star = k_m/k_p;
+
 %% MRAC process
 for i=1:(length(t_space)-1)
     %controller calculation - adaptive law & control law combination
