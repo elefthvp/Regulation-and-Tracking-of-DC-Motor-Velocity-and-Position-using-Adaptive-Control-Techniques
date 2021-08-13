@@ -96,44 +96,50 @@ for i=92:length(t_space)
  
     %% control law
     %calculate sylvester matrix, L and polynomials here!
-    Rp = s^2+a1_hat(i)*s  %why -?
+    Rp = s^2-a1_hat(i)*s  %- because the a1_hat itself is negative, so without the minus this estimated polynomial would be unstable
     Zp = kphat(i)
-    Rptf = tf([1 +a1_hat(i) 0],1)
+    Rptf = tf([1 -a1_hat(i) 0],1)
     Zptf = tf(kphat(i),1)
     
     [Ps,Ls] = calculateP_L(n,q,As,Qmtf,Rptf,Zptf);
     Cs = Ps/(Qmtf*Ls);
     %% u and y update
     up_plant =  - Cs*(yp(i)-ym(i)); %no index because this is a tf
-    % up_plant = ((Lamda - Ls*Qmtf)/Lamda)*up(i-1)-(Ps/Lamda)*(yp(i-1)-ym(i-1))
     up_plant = ss(up_plant);
     [temp,time,u0] = lsim(up_plant,u_1,t,uic(i,:));
     uic(i+1,:)=u0(end,:);
     up(i+1) = temp(end);
 
-    yp_plant = (Zptf*Ps/Astf)*ym(i) %this was x, i changed to yp_plant
-    yp_plant = ss(yp_plant)
-%   yp_plant = Gpknown*up(i+1);
-%   yp_plant=ss(yp_plant);
-    [temp,time,x0] = lsim(yp_plant,u_1,t,x(i,:))
+   
+    [temp,time,x0] = lsim(Gpknownss,up(i+1)*u_1,t,x(i,:))
     x(i+1,:)=x0(end,:)
     yp(i+1) = temp(end);
-%      
-%     [temp,time,x0] = lsim(Gpknownss,up(i+1)*u_1,t,x(i,:))
-%     x(i+1,:)=x0(end,:)
-%     yp(i+1) = temp(end);
  end
-% e1=yp-ym;
+ 
+figure()
 plot(t_space(1:i),yp(1:i),t_space(1:i),ym(1:i))
-% figure()
-% plot(t_space,e1)
-% figure()
-% plot(t_space(2:end),a1_hat)
-% figure()
-% plot(t_space(2:end),kphat)
-% 
-% 
-% figure()
-% plot(t_space(2:end),epsilon)
+title('yp and ym')
+legend('yp','ym')
 
-% save workspace.mat
+e1=yp-ym;
+figure()
+plot(t_space,e1)
+title('e1')
+
+
+figure()
+plot(t_space(2:end),a1_hat)
+title('ahat')
+
+
+figure()
+plot(t_space(2:end),kphat)
+title('kphat')
+
+% 
+% 
+figure()
+plot(t_space(2:end),epsilon)
+title('epsilon')
+
+save workspace.mat
