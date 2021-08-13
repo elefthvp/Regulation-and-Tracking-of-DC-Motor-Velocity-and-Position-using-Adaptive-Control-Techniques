@@ -1,11 +1,16 @@
-## IMPLEMENTATION
+## Controllers
+<p align=justify> A wide variety of adaptive controllers and their correspondent known-parameter versions, Linear Feedback Controllers, and a Prescribed- Performance controller simulated using the ideal models and fine-tuned. <br> </p>
+<p align = justify> The same controllers are tested using the system model for which they were created and taking into consideration Coulomb and static friction that act as disturbances. The contollers are enriched with robust mechanisms ensure overall stability and the control schemes are fine-tuned again to achieve minimum tracking and parameter estimation error. <br> </p>
 
-## SIMULATION
+## Implementation
+<p align=justify> The contents of this directory are used to slightly modify the original controllers used for digital simulations in order to carry out experiments on the real-life plant <br> </p?
 
-## SIMULATION WITH FRICTION
-
-### FUNCTION REPETITION
-<p align=justify> The experiments are still ongoing and these folders are directly linked to my local repository, thus functions that might appear multiple times in different folders are either necessary for an easier program execution or share the same name and overall functionality but a different content, each time adjusted to the specific control scheme (i.e. all figures functions generate figures but the figures to be printed vary for every controller).  <br> </p>
-<p align=justify> The overall organisation of the thesis repo will change after its completion and identical functions appearing in different places will be added to a unique directory mentioned in each controllers README "Dependencies" section.  <br> </p>
-
+____________________
 ### ACKNOWLEDGEMENTS
+I especially appreciate the guidance of professor George Rovitahkis who supervises this thesis. I express my admiration towards mr. Petros Ioannou and mr. Baris Fidan regarding their work on the "Adaptive Control Tutorial" book that I thoroughly studied to implement my control schemes. 
+
+TO DO
+1. add license
+2. add contact info to all 
+3. add experiments results
+4. publish
