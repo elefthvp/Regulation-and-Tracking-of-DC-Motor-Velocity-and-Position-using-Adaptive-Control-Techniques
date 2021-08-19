@@ -11,6 +11,7 @@ MATLAB Support Package for Arduino Hardware
 
 ## Manual Measurements 
 <p align=justify> The following functions are used to acquire voltage data for position and velocity throughout the whole function spectre of the system.<br></p>
+
 ### pos_voltage_measurements function
 <p align=justify>Function that simplifies the acquisition of voltage data read from the position pin. The process is half-manual half automatic. At first we decide per how many degrees we will measure a new voltage. This function was used to measure per 5 degrees.
 During an iteration of the loop, the current position voltage is measured by reading the respective Arduino pin. Then a message appears and we measure this voltage manually and input it to the Command Window. The system then pauses and waits for any key. We then manually move the ouput hub for 5 degrees and press any key. The new iteration takes place and the system now measures the voltage of the position we just got the hub to. We continue this process until we have the voltage measurements for the whole 360-degree spectre.<br></p>
