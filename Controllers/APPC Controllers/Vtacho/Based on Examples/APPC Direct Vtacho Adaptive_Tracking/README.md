@@ -42,7 +42,7 @@ Note that the controller does not use the values of the following parameters, bu
 
 ### Reference 
 | Variable| Description |
-|------|-------------|                         |
+|------|-------------|                         
 | ymsym   | The reference signal in symbolic format, set f to choose signal frequency|
 |t_space| The time range of the simulation |
 
