@@ -3,7 +3,6 @@
 <b>Indirect Adaptive Pole Placement Controller for Output Velocity Voltage control of a DC motor </b>
 
 
----
 
 ## Mathematical Methodology 
 <p align=justify>
@@ -17,7 +16,7 @@ The controllers presented are indirect since for every time fragment we first es
 </p>
 <p align=justify> The controllers in the two directories are identical in terms of overall methodology but the order of the desired polynomial As changes according to whether the reference is shifting or not. Certain mathematical manipulations also change to
 support the necessary calculations (for example the 'ss' command for state-space model derivation meets our needs in the constant reference case but a custom function 'ThirdOrderCCF' had to be made for the sinusoid trajectory one)<br> </p>
----
+
 
 ## Plant Model
 ### Second-Order Plant 
