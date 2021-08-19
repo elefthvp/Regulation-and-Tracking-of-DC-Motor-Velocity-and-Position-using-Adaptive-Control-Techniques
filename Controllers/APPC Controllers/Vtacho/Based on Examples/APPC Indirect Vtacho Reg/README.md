@@ -44,7 +44,7 @@ Note that the controller does not use the values of the following parameters, bu
 
 ### Reference 
 | Variable| Description |
-|------|-------------|                         |
+|------|-------------|                         
 | yc  | The reference signal, sets the desired output amplitude|
 |t_space| The time range of the simulation |
 
