@@ -8,3 +8,9 @@
 ____________________
 ### ACKNOWLEDGEMENTS
 I especially appreciate the guidance of professor George Rovitahkis who supervises this thesis. I express my admiration towards mr. Petros Ioannou and mr. Baris Fidan regarding their work on the "Adaptive Control Tutorial" book that I thoroughly studied to implement my control schemes. 
+
+## Contact me
+
+- [e-mail elefthvp](mailto:el.papaioannou.96@gmail.com "el.papaioannou.96@gmail.com")
+
+---
