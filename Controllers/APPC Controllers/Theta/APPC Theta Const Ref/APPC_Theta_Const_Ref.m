@@ -5,8 +5,8 @@ close all
 %%
 syms s
 n=2;
-interval = 0.1;
-t_space=[0:interval:80];
+interval = 0.01;
+t_space=[0:interval:20];
 kp_max = -0.1;
 
 %% Time, Reference Input and Reference Model simulation
@@ -72,8 +72,8 @@ x = zeros(length(t_space),2);
 %2*n+q-1
 uic = zeros(length(t_space),n+q-1);
 %% APPC Process
-for i=92:length(t_space)
-    t = t_space(i-1):0.01:t_space(i);
+for i=811:length(t_space)
+    t = t_space(i-1):interval:t_space(i);
     u_1=ones(1,length(t));
 
     %% adaptive law
@@ -96,7 +96,7 @@ for i=92:length(t_space)
  
     %% control law
     %calculate sylvester matrix, L and polynomials here!
-    Rp = s^2-a1_hat(i)*s  %- because the a1_hat itself is negative, so without the minus this estimated polynomial would be unstable
+    Rp = s^2-a1_hat(i)*s  %why -?
     Zp = kphat(i)
     Rptf = tf([1 -a1_hat(i) 0],1)
     Zptf = tf(kphat(i),1)
@@ -105,41 +105,39 @@ for i=92:length(t_space)
     Cs = Ps/(Qmtf*Ls);
     %% u and y update
     up_plant =  - Cs*(yp(i)-ym(i)); %no index because this is a tf
-    up_plant = ss(up_plant);
+    % up_plant = ((Lamda - Ls*Qmtf)/Lamda)*up(i-1)-(Ps/Lamda)*(yp(i-1)-ym(i-1))
+    up_plant = SecondOrderCCF(up_plant);
     [temp,time,u0] = lsim(up_plant,u_1,t,uic(i,:));
     uic(i+1,:)=u0(end,:);
     up(i+1) = temp(end);
 
-   
+%     yp_plant = (Zptf*Ps/Astf)*ym(i) %this was x, i changed to yp_plant
+%     yp_plant = ss(yp_plant)
+%   yp_plant = Gpknown*up(i+1);
+%   yp_plant=ss(yp_plant);
+%     [temp,time,x0] = lsim(yp_plant,u_1,t,x(i,:))
+%     x(i+1,:)=x0(end,:)
+%     yp(i+1) = temp(end);
+    
     [temp,time,x0] = lsim(Gpknownss,up(i+1)*u_1,t,x(i,:))
-    x(i+1,:)=x0(end,:)
+    x(i+1,:)=x0(end,:);
     yp(i+1) = temp(end);
+%      
+%     [temp,time,x0] = lsim(Gpknownss,up(i+1)*u_1,t,x(i,:))
+%     x(i+1,:)=x0(end,:)
+%     yp(i+1) = temp(end);
  end
- 
-figure()
-plot(t_space(1:i),yp(1:i),t_space(1:i),ym(1:i))
-title('yp and ym')
-legend('yp','ym')
-
-e1=yp-ym;
-figure()
-plot(t_space,e1)
-title('e1')
-
-
-figure()
-plot(t_space(2:end),a1_hat)
-title('ahat')
-
-
-figure()
-plot(t_space(2:end),kphat)
-title('kphat')
-
+% e1=yp-ym;
+plot(t_space(1:i),yp(1:i),t_space(1:i),ym(1:i)) %SecondOrderCCF
+% figure()
+% plot(t_space,e1)
+% figure()
+% plot(t_space(2:end),a1_hat)
+% figure()
+% plot(t_space(2:end),kphat)
 % 
 % 
-figure()
-plot(t_space(2:end),epsilon)
-title('epsilon')
+% figure()
+% plot(t_space(2:end),epsilon)
 
-save workspace.mat
+% save workspace.mat
